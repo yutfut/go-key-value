@@ -9,8 +9,8 @@ import (
 )
 
 type RedisInterface interface {
-	Set(ctx context.Context, data *models.Redis) (*models.Redis, error)
-	Get(ctx context.Context, data *models.Redis) (*models.Redis, error)
+	Set(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
+	Get(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
 }
 
 type RedisRepository struct {
@@ -23,12 +23,16 @@ func NewRedisRepository(redis *redis.Client) RedisInterface {
 	}
 }
 
-func (h *RedisRepository) Set(ctx context.Context, data *models.Redis) (*models.Redis, error) {
-	return data, h.redis.Set(ctx, data.Key, data.Value, 0).Err()
+func (r *RedisRepository) Set(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error) {
+	return data, r.redis.Set(ctx, data.Key, data.Value, 0).Err()
 }
 
-func (h *RedisRepository) Get(ctx context.Context, data *models.Redis) (*models.Redis, error) {
-	result, err := h.redis.Get(ctx, data.Key).Result()
+func (r *RedisRepository) Get(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error) {
+	result, err := r.redis.Get(ctx, data.Key).Result()
+	if err != nil {
+		return nil, err
+	}
+
 	data.Value = result
 	return data, err
 }

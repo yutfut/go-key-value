@@ -11,6 +11,12 @@ type Conf struct {
 		Port		int		`json:"Port"`
 		Password	string	`json:"Password"`
 	} `json:"Redis"`
+	Memcached struct {
+		Host		string	`json:"Host"`
+		Port		int		`json:"Port"`
+		Username	string	`json:"Username"`
+		Password	string	`json:"Password"`
+	} `json:"Memcached"`
 	Main struct {
 		Port	int	`json:"Port"`
 	} `json:"Main"`

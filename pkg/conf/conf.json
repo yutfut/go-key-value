@@ -4,6 +4,12 @@
         "Port": 6379,
         "Password": "password"
     },
+    "Memcached": {
+        "Host": "127.0.0.1",
+        "Port": 11211,
+        "Username": "yutfut",
+        "Password": "yutfut"
+    },
     "Main": {
         "Port": 8000
     }

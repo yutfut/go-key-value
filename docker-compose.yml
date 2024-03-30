@@ -6,4 +6,12 @@ services:
     ports:
       - '6379:6379'
     env_file:
-      - ./docker.env
+      - ./redis.env
+
+  memcached:
+    image: memcached:latest
+    restart: always
+    ports:
+      - "11211:11211"
+    env_file:
+      - ./memcached.env

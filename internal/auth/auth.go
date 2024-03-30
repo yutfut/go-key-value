@@ -1,9 +1,9 @@
 package auth
 
 import (
+	"context"
 	"encoding/json"
 
-	"redis/internal/redisRepository"
 	"redis/internal/models"
 
 	"github.com/gofiber/fiber/v3"
@@ -19,18 +19,23 @@ type AuthHandlerInterface interface {
 	Get(ctx fiber.Ctx) error
 }
 
-type AuthHandler struct {
-	redis redisrepository.RedisInterface
+type AuthInterface interface {
+	Set(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
+	Get(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
 }
 
-func NewAuthHandler(redis redisrepository.RedisInterface) AuthHandlerInterface {
+type AuthHandler struct {
+	redis AuthInterface
+}
+
+func NewAuthHandler(redis AuthInterface) AuthHandlerInterface {
 	return &AuthHandler{
 		redis: redis,
 	}
 }
 
 func (a *AuthHandler) Set(ctx fiber.Ctx) error {
-	request := &models.Redis{}
+	request := &models.KeyValue{}
 
 	if err := json.Unmarshal(ctx.Body(), request); err != nil {
 		return ctx.SendStatus(fiber.StatusBadRequest)
@@ -48,7 +53,7 @@ func (a *AuthHandler) Set(ctx fiber.Ctx) error {
 }
 
 func (a *AuthHandler) Get(ctx fiber.Ctx) error {
-	request := &models.Redis{}
+	request := &models.KeyValue{}
 
 	if err := json.Unmarshal(ctx.Body(), request); err != nil {
 		return ctx.SendStatus(fiber.StatusBadRequest)

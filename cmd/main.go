@@ -1,14 +1,16 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
 	"log"
 
-	redisrepository "redis/internal/redisRepository"
+	"redis/internal/redisRepository"
+	// "redis/internal/memcachedRepository"
+
 	"redis/pkg/conf"
 	"redis/pkg/redis"
+	// "redis/pkg/memcached"
 
 	auth "redis/internal/auth"
 
@@ -23,14 +25,21 @@ func main() {
 		log.Fatal(err)
 	}
 
-	redisConn := redis.RedisConn(config)
-	
-	if err := redisConn.Ping(context.Background()).Err(); err != nil {
+	redisConn, err := redis.RedisConn(config)
+	if err != nil {
 		log.Fatal(err)
 	}
 
 	redisDB := redisrepository.NewRedisRepository(redisConn)
 	AuthHandler := auth.NewAuthHandler(redisDB)
+
+	// memcachedConn, err := memcached.MemcachedConn(config)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// memcachedDB := memcachedRepository.NewMemcachedRepository(memcachedConn)
+	// AuthHandler := auth.NewAuthHandler(memcachedDB)
 
 
 	router := fiber.New()
