@@ -2,9 +2,12 @@ package main
 
 import (
 	"context"
+	"flag"
+	"fmt"
 	"log"
 
 	redisrepository "redis/internal/redisRepository"
+	"redis/pkg/conf"
 	"redis/pkg/redis"
 
 	auth "redis/internal/auth"
@@ -13,9 +16,14 @@ import (
 )
 
 func main() {
-	router := fiber.New()
+	flagPath := flag.String("conf_path", "./pkg/conf/conf.json", "path to config")
 
-	redisConn := redis.RedisConn()
+	config, err := conf.ReadConf(flagPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	redisConn := redis.RedisConn(config)
 	
 	if err := redisConn.Ping(context.Background()).Err(); err != nil {
 		log.Fatal(err)
@@ -24,7 +32,9 @@ func main() {
 	redisDB := redisrepository.NewRedisRepository(redisConn)
 	AuthHandler := auth.NewAuthHandler(redisDB)
 
+
+	router := fiber.New()
 	auth.NewAuthRouting(router, AuthHandler)
 
-	log.Fatal(router.Listen(":8000"))
+	log.Fatal(router.Listen(fmt.Sprintf(":%d", config.Main.Port)))
 }

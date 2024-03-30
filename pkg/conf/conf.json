@@ -1,0 +1,10 @@
+{
+    "Redis": {
+        "Host": "127.0.0.1",
+        "Port": 6379,
+        "Password": "password"
+    },
+    "Main": {
+        "Port": 8000
+    }
+}

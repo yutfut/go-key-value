@@ -41,14 +41,8 @@ func (a *AuthHandler) Set(ctx fiber.Ctx) error {
 		return ctx.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	response, err := json.Marshal(responseData)
-	if err != nil {
-		return ctx.SendStatus(fiber.StatusInternalServerError)
-	}
-
-	if err = ctx.Send(response); err != nil {
-		return ctx.SendStatus(fiber.StatusInternalServerError)
-	}
+	ctx.JSON(responseData)
+	ctx.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSON)
 
 	return ctx.SendStatus(fiber.StatusOK)
 }
@@ -65,14 +59,8 @@ func (a *AuthHandler) Get(ctx fiber.Ctx) error {
 		return ctx.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	response, err := json.Marshal(responseData)
-	if err != nil {
-		return ctx.SendStatus(fiber.StatusInternalServerError)
-	}
-
-	if err = ctx.Send(response); err != nil {
-		return ctx.SendStatus(fiber.StatusInternalServerError)
-	}
+	ctx.JSON(responseData)
+	ctx.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSON)
 
 	return ctx.SendStatus(fiber.StatusOK)
 }
