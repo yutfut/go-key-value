@@ -17,7 +17,7 @@ type RedisRepository struct {
 	redis *redis.Client
 }
 
-func NewRedisRepository(redis *redis.Client) *RedisRepository {
+func NewRedisRepository(redis *redis.Client) RedisInterface {
 	return &RedisRepository{
 		redis: redis,
 	}

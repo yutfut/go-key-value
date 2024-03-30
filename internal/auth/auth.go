@@ -9,7 +9,7 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-func NewAuthRouting(r *fiber.App, a *AuthHandler) {
+func NewAuthRouting(r *fiber.App, a AuthHandlerInterface) {
 	r.Post("/v1/set", a.Set)
 	r.Get("/v1/get", a.Get)
 }
@@ -20,10 +20,10 @@ type AuthHandlerInterface interface {
 }
 
 type AuthHandler struct {
-	redis *redisrepository.RedisRepository
+	redis redisrepository.RedisInterface
 }
 
-func NewAuthHandler(redis *redisrepository.RedisRepository) *AuthHandler {
+func NewAuthHandler(redis redisrepository.RedisInterface) AuthHandlerInterface {
 	return &AuthHandler{
 		redis: redis,
 	}
