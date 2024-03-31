@@ -3,7 +3,7 @@ package redis
 import (
 	"context"
 	"fmt"
-	"redis/pkg/conf"
+	"go-key-value/pkg/conf"
 
 	"github.com/redis/go-redis/v9"
 )

@@ -2,7 +2,7 @@ package memcached
 
 import (
 	"fmt"
-	"redis/pkg/conf"
+	"go-key-value/pkg/conf"
 
 	"github.com/bradfitz/gomemcache/memcache"
 )

@@ -5,14 +5,15 @@ import (
 	"fmt"
 	"log"
 
-	"redis/internal/redisRepository"
-	"redis/internal/memcachedRepository"
+	"go-key-value/internal/redisRepository"
+	"go-key-value/internal/memcachedRepository"
 
-	"redis/pkg/conf"
-	"redis/pkg/redis"
-	"redis/pkg/memcached"
+	"go-key-value/pkg/conf"
+	"go-key-value/pkg/redis"
+	"go-key-value/pkg/memcached"
+	"go-key-value/pkg/riak"
 
-	auth "redis/internal/auth"
+	"go-key-value/internal/auth"
 
 	"github.com/gofiber/fiber/v3"
 )
@@ -49,6 +50,8 @@ func main() {
 	default:
 		log.Fatal(db)
 	}
+
+	riak.RiakConn()
 
 	router := fiber.New()
 	auth.NewAuthRouting(router, AuthHandler)

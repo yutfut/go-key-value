@@ -3,7 +3,7 @@ package redisrepository
 import (
 	"context"
 
-	"redis/internal/models"
+	"go-key-value/internal/models"
 
 	"github.com/redis/go-redis/v9"
 )

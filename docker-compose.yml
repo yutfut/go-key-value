@@ -4,7 +4,7 @@ services:
     image: redis:latest
     restart: always
     ports:
-      - '6379:6379'
+      - 6379:6379
     env_file:
       - ./redis.env
 
@@ -12,6 +12,13 @@ services:
     image: memcached:latest
     restart: always
     ports:
-      - "11211:11211"
+      - 11211:11211
     env_file:
       - ./memcached.env
+
+  riak:
+    image: basho/riak-kv:latest
+    restart: always
+    ports:
+      - 8087:8087
+      - 8098:8098

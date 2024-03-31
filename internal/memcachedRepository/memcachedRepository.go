@@ -3,7 +3,7 @@ package memcachedRepository
 import (
 	"context"
 
-	"redis/internal/models"
+	"go-key-value/internal/models"
 	
 	"github.com/bradfitz/gomemcache/memcache"
 )

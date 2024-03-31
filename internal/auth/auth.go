@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"redis/internal/models"
+	"go-key-value/internal/models"
 
 	"github.com/gofiber/fiber/v3"
 )
