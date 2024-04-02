@@ -11,6 +11,8 @@
         "Password": "yutfut"
     },
     "Main": {
-        "Port": 8000
+        "HTTPPort": 8000,
+        "GRPCPort": 8001,
+        "Host": "127.0.0.1"
     }
 }

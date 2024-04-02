@@ -4,21 +4,16 @@ import (
 	"context"
 
 	"go-key-value/internal/models"
+	"go-key-value/internal/interfaces"
 	
 	"github.com/bradfitz/gomemcache/memcache"
 )
-
-type MemcachedInterface interface {
-	Set(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
-	Get(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
-	Del(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
-}
 
 type MemcachedRepository struct {
 	memcached *memcache.Client
 }
 
-func NewMemcachedRepository(memcached *memcache.Client) MemcachedInterface {
+func NewMemcachedRepository(memcached *memcache.Client) interfaces.KeyValueRepositoryInterface {
 	return &MemcachedRepository{
 		memcached: memcached,
 	}

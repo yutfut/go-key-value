@@ -18,7 +18,9 @@ type Conf struct {
 		Password	string	`json:"Password"`
 	} `json:"Memcached"`
 	Main struct {
-		Port	int	`json:"Port"`
+		HTTPPort	int		`json:"HTTPPort"`
+		GRPCPort	int		`json:"GRPCPort"`
+		Host		string	`json:"Host"`
 	} `json:"Main"`
 }
 

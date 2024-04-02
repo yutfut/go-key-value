@@ -3,22 +3,17 @@ package redisrepository
 import (
 	"context"
 
+	"go-key-value/internal/interfaces"
 	"go-key-value/internal/models"
 
 	"github.com/redis/go-redis/v9"
 )
 
-type RedisInterface interface {
-	Set(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
-	Get(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
-	Del(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
-}
-
 type RedisRepository struct {
 	redis *redis.Client
 }
 
-func NewRedisRepository(redis *redis.Client) RedisInterface {
+func NewRedisRepository(redis *redis.Client) interfaces.KeyValueRepositoryInterface {
 	return &RedisRepository{
 		redis: redis,
 	}

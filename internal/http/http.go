@@ -1,38 +1,32 @@
-package auth
+package http
 
 import (
-	"context"
 	"encoding/json"
 
+	"go-key-value/internal/interfaces"
 	"go-key-value/internal/models"
 
 	"github.com/gofiber/fiber/v3"
 )
 
-func NewAuthRouting(r *fiber.App, a AuthHandlerInterface) {
+func NewAuthRouting(r *fiber.App, a AuthHTTPInterface) {
 	r.Post("/v1/set", a.Set)
 	r.Post("/v1/get", a.Get)
 	r.Post("/v1/del", a.Del)
 
 }
 
-type AuthHandlerInterface interface {
+type AuthHTTPInterface interface {
 	Set(ctx fiber.Ctx) error
 	Get(ctx fiber.Ctx) error
 	Del(ctx fiber.Ctx) error
 }
 
-type AuthInterface interface {
-	Set(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
-	Get(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
-	Del(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
-}
-
 type AuthHandler struct {
-	redis AuthInterface
+	redis interfaces.KeyValueRepositoryInterface
 }
 
-func NewAuthHandler(redis AuthInterface) AuthHandlerInterface {
+func NewAuthHandler(redis interfaces.KeyValueRepositoryInterface) AuthHTTPInterface {
 	return &AuthHandler{
 		redis: redis,
 	}

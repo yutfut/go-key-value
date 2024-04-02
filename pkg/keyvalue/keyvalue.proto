@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "./keyvalue";
+
+package keyvalue;
+
+service Keyvalue {
+    rpc Get(KeyValue) returns (KeyValue) {}
+    rpc Set(KeyValue) returns (KeyValue) {}
+    rpc Del(KeyValue) returns (KeyValue) {}
+}
+
+message KeyValue {
+    string  Key     = 1;
+    string  Value   = 2;
+}
