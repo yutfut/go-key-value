@@ -11,6 +11,7 @@ import (
 type MemcachedInterface interface {
 	Set(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
 	Get(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
+	Del(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
 }
 
 type MemcachedRepository struct {
@@ -35,4 +36,8 @@ func (m *MemcachedRepository) Get(ctx context.Context, data *models.KeyValue) (*
 
 	data.Value = string(result.Value)
 	return data, nil
+}
+
+func (m *MemcachedRepository) Del(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error) {
+	return data, m.memcached.Delete(data.Key)
 }

@@ -18,7 +18,7 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-const db = "redis"
+const db = "memcached"
 
 func main() {
 	flagPath := flag.String("conf_path", "./pkg/conf/conf.json", "path to config")

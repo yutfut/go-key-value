@@ -11,17 +11,21 @@ import (
 
 func NewAuthRouting(r *fiber.App, a AuthHandlerInterface) {
 	r.Post("/v1/set", a.Set)
-	r.Get("/v1/get", a.Get)
+	r.Post("/v1/get", a.Get)
+	r.Post("/v1/del", a.Del)
+
 }
 
 type AuthHandlerInterface interface {
 	Set(ctx fiber.Ctx) error
 	Get(ctx fiber.Ctx) error
+	Del(ctx fiber.Ctx) error
 }
 
 type AuthInterface interface {
 	Set(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
 	Get(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
+	Del(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
 }
 
 type AuthHandler struct {
@@ -60,6 +64,24 @@ func (a *AuthHandler) Get(ctx fiber.Ctx) error {
 	}
 
 	responseData, err := a.redis.Get(ctx.Context(), request)
+	if err != nil {
+		return ctx.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	ctx.JSON(responseData)
+	ctx.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSON)
+
+	return ctx.SendStatus(fiber.StatusOK)
+}
+
+func (a *AuthHandler) Del(ctx fiber.Ctx) error {
+	request := &models.KeyValue{}
+
+	if err := json.Unmarshal(ctx.Body(), request); err != nil {
+		return ctx.SendStatus(fiber.StatusBadRequest)
+	}
+
+	responseData, err := a.redis.Del(ctx.Context(), request)
 	if err != nil {
 		return ctx.SendStatus(fiber.StatusInternalServerError)
 	}

@@ -11,6 +11,7 @@ import (
 type RedisInterface interface {
 	Set(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
 	Get(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
+	Del(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error)
 }
 
 type RedisRepository struct {
@@ -35,4 +36,8 @@ func (r *RedisRepository) Get(ctx context.Context, data *models.KeyValue) (*mode
 
 	data.Value = result
 	return data, err
+}
+
+func (r *RedisRepository) Del(ctx context.Context, data *models.KeyValue) (*models.KeyValue, error) {
+	return data, r.redis.Del(ctx, data.Key).Err()
 }
