@@ -9,30 +9,30 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-func NewAuthRouting(r *fiber.App, a AuthHTTPInterface) {
+func NewAuthRouting(r *fiber.App, a HTTPInterface) {
 	r.Post("/v1/set", a.Set)
 	r.Post("/v1/get", a.Get)
 	r.Post("/v1/del", a.Del)
 
 }
 
-type AuthHTTPInterface interface {
+type HTTPInterface interface {
 	Set(ctx fiber.Ctx) error
 	Get(ctx fiber.Ctx) error
 	Del(ctx fiber.Ctx) error
 }
 
-type AuthHandler struct {
+type Handler struct {
 	redis interfaces.KeyValueRepositoryInterface
 }
 
-func NewAuthHandler(redis interfaces.KeyValueRepositoryInterface) AuthHTTPInterface {
-	return &AuthHandler{
+func NewHandler(redis interfaces.KeyValueRepositoryInterface) HTTPInterface {
+	return &Handler{
 		redis: redis,
 	}
 }
 
-func (a *AuthHandler) Set(ctx fiber.Ctx) error {
+func (a *Handler) Set(ctx fiber.Ctx) error {
 	request := &models.KeyValue{}
 
 	if err := json.Unmarshal(ctx.Body(), request); err != nil {
@@ -50,7 +50,7 @@ func (a *AuthHandler) Set(ctx fiber.Ctx) error {
 	return ctx.SendStatus(fiber.StatusOK)
 }
 
-func (a *AuthHandler) Get(ctx fiber.Ctx) error {
+func (a *Handler) Get(ctx fiber.Ctx) error {
 	request := &models.KeyValue{}
 
 	if err := json.Unmarshal(ctx.Body(), request); err != nil {
@@ -68,7 +68,7 @@ func (a *AuthHandler) Get(ctx fiber.Ctx) error {
 	return ctx.SendStatus(fiber.StatusOK)
 }
 
-func (a *AuthHandler) Del(ctx fiber.Ctx) error {
+func (a *Handler) Del(ctx fiber.Ctx) error {
 	request := &models.KeyValue{}
 
 	if err := json.Unmarshal(ctx.Body(), request); err != nil {

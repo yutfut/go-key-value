@@ -57,7 +57,7 @@ func main() {
 	switch network {
 	case "http":
 		router := fiber.New()
-		http.NewAuthRouting(router, http.NewAuthHandler(repository))
+		http.NewAuthRouting(router, http.NewHandler(repository))
 	
 		log.Fatal(router.Listen(fmt.Sprintf(":%d", config.Main.HTTPPort)))
 	case "grpc":
